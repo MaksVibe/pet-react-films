@@ -1,13 +1,11 @@
-export const addContact = (contact) => ({
-  type: "contacts/add",
-  payload: contact,
-});
+import { createAction, nanoid } from "@reduxjs/toolkit";
 
-export const deleteContact = (contact) => ({
-  type: "contacts/delete",
-  payload: contact,
-});
+export const addContact = createAction("contacts/add", (contact) => ({
+  payload: {
+    ...contact,
+    id: nanoid(5),
+  },
+}));
 
-export const filterContacts = () => ({
-  type: "contacts/filter",
-});
+export const deleteContact = createAction("contacts/delete");
+// export const filterContacts = createAction("contacts/filter");

@@ -1,8 +1,14 @@
-const Filter = ({ filter, value }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { filterContacts } from "../../redux/contacts/contactsReducer";
+
+const Filter = () => {
+  const dispatch = useDispatch();
+  const value = useSelector((state) => state.contacts.filter);
+
   return (
     <input
-      onChange={value}
-      value={filter}
+      onChange={(e) => dispatch(filterContacts(e.target.value))}
+      value={value}
       type="text"
       name="filter"
       pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
