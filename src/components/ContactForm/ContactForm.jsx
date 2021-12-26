@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "../../redux/contacts/contactsAction";
+import { useAddTodoMutation } from "../../redux/todos/todoSlice";
 
 const ContactForm = () => {
-  const contacts = useSelector((state) => state.contacts.items);
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-
-  const dispatch = useDispatch();
+  const [addTodo] = useAddTodoMutation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    contacts.some(({ name }) => name === e.target.name.value)
-      ? alert(`${name} is already in contacts`)
-      : dispatch(addContact({ name, number }));
+    addTodo({ name, number });
     reset();
   };
 

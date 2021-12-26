@@ -1,13 +1,20 @@
-import { useDispatch, useSelector } from "react-redux";
-import { filterContacts } from "../../redux/contacts/contactsReducer";
+import { useState } from "react";
+import { useGetTodoQuery } from "../../redux/todos/todoSlice";
 
 const Filter = () => {
-  const dispatch = useDispatch();
-  const value = useSelector((state) => state.contacts.filter);
+  const [value, setValue] = useState("");
+  const { data } = useGetTodoQuery();
+
+  const heandleChange = (e) => {
+    setValue(e.target.value);
+    data.filter((contact) =>
+      contact.name.toLowerCase().includes(value.toLowerCase())
+    );
+  };
 
   return (
     <input
-      onChange={(e) => dispatch(filterContacts(e.target.value))}
+      onChange={heandleChange}
       value={value}
       type="text"
       name="filter"
