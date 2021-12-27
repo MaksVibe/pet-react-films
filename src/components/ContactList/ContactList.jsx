@@ -14,7 +14,7 @@ const ContactList = () => {
       contact.name.toLowerCase().includes(value.toLowerCase())
     );
   };
-  const dispatch = useDispatch();
+
   return (
     !isFetching &&
     data && (

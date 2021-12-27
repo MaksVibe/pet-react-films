@@ -1,14 +1,7 @@
-import { useState } from "react";
-import {
-  useGetTodoQuery,
-  useFetchTodosQuery,
-} from "../../redux/todos/todoSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { filterContacts } from "../../redux/todos/todoSlice";
 
 const Filter = () => {
-  // const [value, setValue] = useState("");
-  // const { data } = useGetTodoQuery();
   const dispatch = useDispatch();
   const value = useSelector((state) => state.filter);
 
