@@ -2,7 +2,7 @@ import {
   useFetchTodosQuery,
   useDeleteTodoMutation,
 } from "../../redux/todos/todoSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ContactList = () => {
   const { data, isFetching } = useFetchTodosQuery();
