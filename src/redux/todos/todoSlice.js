@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import combineReducers from "react";
 
 export const todoApi = createApi({
   reducerPath: "todoApi",
