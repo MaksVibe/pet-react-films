@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { useAddTodoMutation } from "../../redux/todos/todoSlice";
+import { useFetchTodosQuery } from "../../redux/todos/todoSlice";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [addTodo] = useAddTodoMutation();
+  const { data } = useFetchTodosQuery();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo({ name, number });
+
+    data.some(({ name }) => name === e.target.name.value)
+      ? alert(`${name} is already in contacts`)
+      : addTodo({ name, number });
     reset();
   };
 
