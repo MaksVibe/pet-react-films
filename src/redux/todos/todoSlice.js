@@ -1,4 +1,6 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import combineReducers from "react";
 
 export const todoApi = createApi({
   reducerPath: "todoApi",
@@ -17,7 +19,7 @@ export const todoApi = createApi({
         method: "POST",
         body: contact,
       }),
-      invalidatesTags: [{ type: "Todo", id: "LIST" }],
+      invalidatesTags: ["Todo"],
     }),
     deleteTodo: builder.mutation({
       query: (contactId) => ({
@@ -36,6 +38,14 @@ export const todoApi = createApi({
   }),
 });
 
+export const filterSlice = createSlice({
+  name: "filter",
+  initialState: "",
+  reducers: {
+    filterContacts: (_, { payload }) => payload,
+  },
+});
+export const { filterContacts } = filterSlice.actions;
 export const {
   useFetchTodosQuery,
   useDeleteTodoMutation,

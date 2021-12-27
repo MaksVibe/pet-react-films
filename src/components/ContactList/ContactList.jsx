@@ -2,16 +2,24 @@ import {
   useFetchTodosQuery,
   useDeleteTodoMutation,
 } from "../../redux/todos/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ContactList = () => {
   const { data, isFetching } = useFetchTodosQuery();
   const [deleteTodo, { isLoading: isDeliting }] = useDeleteTodoMutation();
 
+  const value = useSelector((state) => state.filter);
+  const onFilterContacts = () => {
+    return data.filter((contact) =>
+      contact.name.toLowerCase().includes(value.toLowerCase())
+    );
+  };
+  const dispatch = useDispatch();
   return (
     !isFetching &&
     data && (
       <ul>
-        {data.map(({ id, name, number }) => {
+        {onFilterContacts().map(({ id, name, number }) => {
           return (
             <li key={id}>
               <p>
