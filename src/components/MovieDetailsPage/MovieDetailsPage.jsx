@@ -4,30 +4,18 @@ import { useState, useEffect, lazy } from "react";
 import { fetchFilmById, fetchFilms } from "../../source/api";
 import s from "./MovieDetailsPage.module.css";
 import { useRouteMatch } from "react-router-dom";
-
-const Cast = lazy(() => import("../Cast/Cast"));
-const Reviews = lazy(() => import("../Reviews/Reviews"));
+import {
+  useFetchMoviesQuery,
+  useDeleteMoviesMutation,
+  useAddMoviesMutation,
+  useGetMoviesQuery,
+} from "../../redux/movies/moviesSlice";
 
 const MovieDetailsPage = () => {
   const { moviesId } = useParams();
   const [movie, setMovie] = useState(null);
-  const [cast, setCast] = useState(null);
-  const [reviews, setReviews] = useState(null);
-  const { url } = useRouteMatch();
 
   let history = useHistory();
-
-  useEffect(() => {
-    fetchFilmById(moviesId).then(setMovie);
-  }, [moviesId]);
-
-  useEffect(() => {
-    fetchFilms(`/movie/${moviesId}/credits`).then(setCast);
-  }, [moviesId]);
-
-  useEffect(() => {
-    fetchFilms(`/movie/${moviesId}/reviews`).then(setReviews);
-  }, [moviesId]);
 
   return (
     <div className="container">
@@ -39,50 +27,22 @@ const MovieDetailsPage = () => {
         Go back
       </button>
       {movie && (
-        <>
-          <div className={s.MovieCard}>
-            <img
-              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-              alt=""
-              className={s.MoviePoster}
-              width="200"
-            />
-            <div className={s.MovieDescription}>
-              <h1>{movie.original_title}</h1>
-              <p>User Score: {movie.vote_average * 10}%</p>
-              <h2>Overview</h2>
-              <p>{movie.overview}</p>
-              <h3>Genres</h3>
-              <p>{movie.genres.map(genre => genre.name).join(", ")}</p>
-            </div>
+        <div className={s.MovieCard}>
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt=""
+            className={s.MoviePoster}
+            width="200"
+          />
+          <div className={s.MovieDescription}>
+            <h1>{movie.original_title}</h1>
+            <p>User Score: {movie.vote_average * 10}%</p>
+            <h2>Overview</h2>
+            <p>{movie.overview}</p>
+            <h3>Genres</h3>
+            <p>{movie.genres.map((genre) => genre.name).join(", ")}</p>
           </div>
-          <ul className={s.MovieInfo}>
-            <li>
-              <NavLink
-                to={`${url}/cast`}
-                className={s.MovieInfoLink}
-                activeClassName={s.ActiveMovieInfoLink}
-              >
-                Cast
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={`${url}/reviews`}
-                className={s.MovieInfoLink}
-                activeClassName={s.ActiveMovieInfoLink}
-              >
-                Reviews
-              </NavLink>
-            </li>
-          </ul>
-          <Route path={`${url}/cast`}>
-            <Cast cast={cast} />
-          </Route>
-          <Route path={`${url}/reviews`}>
-            <Reviews reviews={reviews} />
-          </Route>
-        </>
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,9 @@
 import "./App.css";
 import { fetchFilms } from "./source/api";
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 
 const MyMovies = lazy(() => import("./components/MyMovies/MyMovies"));
 const AppBar = lazy(() => import("./components/AppBar/AppBar"));
@@ -15,32 +17,14 @@ const NotFound = lazy(() => import("./components/common/404NotFound"));
 function App() {
   const [movieId, setMovieId] = useState(null);
   const [films, setFilms] = useState([]);
-  const [errorr, setErrorr] = useState(null);
-
-  const REQUESTS = {
-    TRANDING: "/trending/movie/day",
-    INFO: `/movie/${movieId}`,
-    CREDITS: `/movie/${movieId}/credits`,
-    REVIEWS: `/movie/${movieId}/reviews`,
-  };
-
-  useEffect(() => {
-    const getFilms = async () => {
-      try {
-        const { results } = await fetchFilms(REQUESTS.TRANDING);
-        setFilms([...results]);
-      } catch (error) {
-        setErrorr(errorr.message);
-      }
-    };
-    getFilms();
-  }, [REQUESTS.TRANDING]);
 
   return (
     <div className="App">
       <Suspense fallback={"...loading"}>
         <AppBar />
-        <Switch>
+        <Register />
+        <Login />
+        {/* <Switch>
           <Route path="/" exact>
             <HomePage films={films} />
           </Route>
@@ -57,7 +41,7 @@ function App() {
           <Route>
             <NotFound />
           </Route>
-        </Switch>
+        </Switch> */}
       </Suspense>
     </div>
   );
