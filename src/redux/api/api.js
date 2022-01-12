@@ -11,7 +11,7 @@ export const moviesApi = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: ["Sessions", "Users"],
+  tagTypes: ["Sessions", "Users", "Movies"],
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: (user) => ({
@@ -27,10 +27,19 @@ export const moviesApi = createApi({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ["Sessions"],
+      keepUnusedDataFor: 5,
+      providesTags: ["Sessions"],
+    }),
+    fetchMovies: builder.query({
+      query: () => ({
+        url: `/movies`,
+        method: "GET",
+      }),
+      extraOptions: { maxRetries: 5 },
+      invalidatesTags: ["Movies"],
     }),
   }),
 });
 
-console.log(`moviesApi`, moviesApi.endpoints.createUser.matchFulfilled);
-export const { useCreateUserMutation, useSignInMutation } = moviesApi;
+export const { useCreateUserMutation, useSignInMutation, useFetchMoviesQuery } =
+  moviesApi;

@@ -1,14 +1,19 @@
 import React from "react";
-import { useState } from "react";
-import { useCreateUserMutation } from "../../redux/api/api";
+import { useState, useEffect } from "react";
+import { useCreateUserMutation, useSignInMutation } from "../../redux/api/api";
+import { token } from "../../redux/auth/authOperations";
 
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [token, setToken] = useState("");
-  const [createUser] = useCreateUserMutation();
+  const [createUser, result] = useCreateUserMutation();
+  useEffect(() => {
+    if (result.status === "fulfilled") {
+      token.set(result.data.token);
+    }
+  }, [result.status]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

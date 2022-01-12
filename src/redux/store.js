@@ -10,7 +10,8 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { moviesApi, filterSlice, tokenSlice } from "./movies/moviesSlice";
+import { moviesApi } from "./api/api";
+import { filterSlice, tokenSlice } from "./movies/moviesSlice";
 
 const persistTokenConfig = {
   key: "token",
@@ -21,7 +22,7 @@ export const store = configureStore({
   reducer: {
     token: persistReducer(persistTokenConfig, tokenSlice.reducer),
     [moviesApi.reducerPath]: moviesApi.reducer,
-    [filterSlice.name]: filterSlice.reducer,
+    // [filterSlice.name]: filterSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({

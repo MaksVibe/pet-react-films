@@ -15,18 +15,15 @@ const MovieDetailsPage = lazy(() =>
 const NotFound = lazy(() => import("./components/common/404NotFound"));
 
 function App() {
-  const [movieId, setMovieId] = useState(null);
-  const [films, setFilms] = useState([]);
-
   return (
     <div className="App">
       <Suspense fallback={"...loading"}>
         <AppBar />
         <Register />
         <Login />
-        {/* <Switch>
+        <Switch>
           <Route path="/" exact>
-            <HomePage films={films} />
+            <HomePage />
           </Route>
           <Route path="/movies" exact>
             <MoviesPage />
@@ -41,7 +38,7 @@ function App() {
           <Route>
             <NotFound />
           </Route>
-        </Switch> */}
+        </Switch>
       </Suspense>
     </div>
   );

@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import s from "../../styles/MoviesList.module.css";
 import { useState } from "react";
-import {
-  useFetchMoviesQuery,
-  useGetMovieQuery,
-} from "../../redux/movies/moviesSlice";
+import { useFetchMoviesQuery } from "../../redux/api/api";
 
 const HomePage = ({ films }) => {
   const [q, setQ] = useState("");
@@ -14,6 +11,7 @@ const HomePage = ({ films }) => {
   const fetchMovie = useFetchMoviesQuery();
   // const [addMovie] = useAddMoviesMutation();
 
+  // console.log(`fetchMovie`, fetchMovie);
   const handleSubmitInput = (e) => {
     e.preventDefault();
   };
@@ -45,7 +43,7 @@ const HomePage = ({ films }) => {
         <button type="submit">Search</button>
       </form>
       <ul className={s.MoviesList}>
-        {fetchMovie.data &&
+        {/* {fetchMovie.data &&
           fetchMovie.data.map(({ title, id }) => (
             <li key={id} id={id} className={s.MoviesListItem}>
               <p>
@@ -60,7 +58,7 @@ const HomePage = ({ films }) => {
                 Add
               </button>
             </li>
-          ))}
+          ))} */}
       </ul>
     </div>
   );
