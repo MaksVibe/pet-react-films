@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { login } from "../../redux/auth/authOperations";
+import s from "./Login.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -30,23 +32,32 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
-        <label>E-mail</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
+    <div className={s.loginContainer}>
+      <h3 className={s.loginHeading}>
+        Please sign in or if don't have an account,{" "}
+        <Link to="/register" className="">
+          sign up
+        </Link>
+      </h3>
+      <form onSubmit={handleSubmit} className={s.loginForm}>
+        <label>
+          E-mail
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Password
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+        </label>
         <button type="submit" className="btn">
           Sign in
         </button>

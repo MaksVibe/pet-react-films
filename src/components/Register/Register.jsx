@@ -2,7 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { register } from "../../redux/auth/authOperations";
-
+import s from "./Register.module.css";
+import { Link } from "react-router-dom";
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -44,11 +45,12 @@ export const Register = () => {
   };
 
   return (
-    <div>
-      <h1>
-        Please sign up or if you have an account, <p>Log in</p>
-      </h1>
-      <form onSubmit={handleSubmit}>
+    <div className={s.signupContainer}>
+      <h3 className={s.signupH}>
+        Please sign up or if you have an account,{" "}
+        <Link to="/login">Log in</Link>
+      </h3>
+      <form onSubmit={handleSubmit} className={s.signupForm}>
         <input
           onChange={handleChange}
           value={name}

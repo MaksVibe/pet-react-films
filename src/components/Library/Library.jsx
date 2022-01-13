@@ -4,23 +4,10 @@ import { fetchSearchFilms } from "../../source/api";
 import { Link } from "react-router-dom";
 import s from "../../styles/MoviesList.module.css";
 
-const MoviesPage = () => {
+const Library = () => {
   const [q, setQ] = useState("");
-  const [movies, setMovies] = useState(null);
-  const [query, setQuery] = useState("");
 
-  const { url } = useRouteMatch();
-
-  useEffect(() => {
-    if (!query) return false;
-    fetchSearchFilms(query).then(setMovies);
-  }, [q, query]);
-
-  const handleSubmitInput = (e) => {
-    e.preventDefault();
-    fetchSearchFilms(q).then(setMovies);
-    setQuery(q);
-  };
+  useEffect(() => {}, []);
 
   const handleChange = (event) => {
     setQ(event.target.value.toLowerCase());
@@ -28,7 +15,7 @@ const MoviesPage = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmitInput}>
+      <form>
         <input
           className="MoviesInput"
           type="text"
@@ -38,11 +25,11 @@ const MoviesPage = () => {
         />
         <button type="submit">Search</button>
       </form>
-      <ul className={s.MoviesList}>
+      {/* <ul className={s.MoviesList}>
         {movies &&
           movies.results.map(({ original_title, id, poster_path }) => (
             <li key={id}>
-              <Link to={`${url}/${id}`} className={s.MoviesListLink}>
+              <Link to={`${id}`} className={s.MoviesListLink}>
                 <img
                   src={`https://image.tmdb.org/t/p/w200/${poster_path}`}
                   alt=""
@@ -52,9 +39,9 @@ const MoviesPage = () => {
               </Link>
             </li>
           ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };
 
-export default MoviesPage;
+export default Library;

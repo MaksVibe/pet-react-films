@@ -1,10 +1,10 @@
-import s from "../../styles/MoviesList.module.css";
+import s from "./MoviesList.module.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies } from "../../redux/movies/moviesOperations";
 import { Link } from "react-router-dom";
 
-const HomePage = () => {
+const MovieList = () => {
   const [q, setQ] = useState("");
   const movies = useSelector((state) => state.movies.items.data);
   const dispatch = useDispatch();
@@ -31,7 +31,9 @@ const HomePage = () => {
           placeholder="Search movie"
           onChange={handleChange}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className="btn">
+          Search
+        </button>
       </form>
       <ul className={s.MoviesList}>
         {movies &&
@@ -53,4 +55,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MovieList;

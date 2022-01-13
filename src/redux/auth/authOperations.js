@@ -46,14 +46,14 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 
 const fetchCurrentUser = createAsyncThunk(
   "auth/refresh",
-  async (_, thunkAPI) => {
+  async (credentials, thunkAPI) => {
     const persistedToken = thunkAPI.getState().auth.token;
     if (!persistedToken) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }
     token.set(persistedToken);
     try {
-      const { data } = await axios.get("/sessions");
+      const { data } = await axios.post("/sessions", credentials);
       return data;
     } catch (error) {
       token.unset();

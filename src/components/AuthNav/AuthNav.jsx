@@ -3,13 +3,13 @@ import s from "./AuthNav.module.css";
 
 const AuthNav = () => {
   return (
-    <header className="container">
+    <header className="App-header">
       <nav className={s.AuthNav}>
         <NavLink to="login" className="btn">
-          Login
+          Sing in
         </NavLink>
         <NavLink to="register" className="btn">
-          Register
+          Sign up
         </NavLink>
       </nav>
     </header>
