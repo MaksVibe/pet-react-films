@@ -1,23 +1,18 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useCreateUserMutation, useSignInMutation } from "../../redux/api/api";
-import { token } from "../../redux/auth/authOperations";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { register } from "../../redux/auth/authOperations";
 
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [createUser, result] = useCreateUserMutation();
-  useEffect(() => {
-    if (result.status === "fulfilled") {
-      token.set(result.data.token);
-    }
-  }, [result.status]);
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser({ name, email, password, confirmPassword });
+    dispatch(register({ name, email, password }));
     reset();
   };
 
@@ -94,7 +89,9 @@ export const Register = () => {
           title="Please Provide A Valid Email Address !"
           required
         />
-        <button type="submit">Register</button>
+        <button type="submit" className="btn">
+          Register
+        </button>
       </form>
     </div>
   );

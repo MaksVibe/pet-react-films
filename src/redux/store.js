@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { createLogger } from "redux-logger";
+import authSliceReducer from "./auth/authSlice";
 import {
   persistStore,
   persistReducer,
@@ -10,28 +12,39 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { moviesApi } from "./api/api";
-import { filterSlice, tokenSlice } from "./movies/moviesSlice";
+import moviesReducer from "./movies/moviesReducer";
 
-const persistTokenConfig = {
-  key: "token",
+const logger = createLogger({
+  collapsed: (getState, action, logEntry) => !logEntry.error,
+  timestamp: false,
+});
+
+const authPersistConfig = {
+  key: "auth",
   storage,
+  whitelist: ["token"],
+};
+
+const moviesPersistConfig = {
+  key: "items",
+  storage,
+  whitelist: ["items"],
+  blacklist: ["filter"],
 };
 
 export const store = configureStore({
   reducer: {
-    token: persistReducer(persistTokenConfig, tokenSlice.reducer),
-    [moviesApi.reducerPath]: moviesApi.reducer,
+    auth: persistReducer(authPersistConfig, authSliceReducer),
+    movies: persistReducer(moviesPersistConfig, moviesReducer),
     // [filterSlice.name]: filterSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
-    moviesApi.middleware,
-  ],
+    }).concat(logger),
+  devTools: process.env.NODE_ENV === "development",
 });
 
 export const persistor = persistStore(store);

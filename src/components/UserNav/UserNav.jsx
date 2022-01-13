@@ -1,7 +1,8 @@
 import React from "react";
+import Navigation from "../Navigation/Navigation";
 
 const UserNav = () => {
-  return <div>User nav</div>;
+  return <Navigation />;
 };
 
 export default UserNav;

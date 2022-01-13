@@ -1,24 +1,11 @@
-import { useEffect, useState } from "react";
-import { useSignInMutation } from "../../redux/api/api";
-import { addToken } from "../../redux/movies/moviesSlice";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { token } from "../../redux/auth/authOperations";
+import { login } from "../../redux/auth/authOperations";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signIn, result] = useSignInMutation();
-  //   const dispatch = useDispatch();
-
-  //   const [loggedIn, setLoggedIn] = useState(false);
-  //   console.log(`status`, result.status);
-  //   console.log(`loggedIn`, loggedIn);
-  useEffect(() => {
-    if (result.status === "fulfilled") {
-      //   dispatch(addToken(result.data.token));
-      token.set(result.data.token);
-    }
-  }, [result.status]);
+  const dispatch = useDispatch();
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -33,8 +20,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signIn({ email, password });
-    // setLoggedIn(true);
+    dispatch(login({ email, password }));
     reset();
   };
 
@@ -61,7 +47,9 @@ export default function Login() {
           value={password}
           onChange={handleChange}
         />
-        <button>Sign in</button>
+        <button type="submit" className="btn">
+          Sign in
+        </button>
       </form>
     </div>
   );

@@ -10,8 +10,17 @@
   margin: 0 auto;
   padding: 20px;
 }
-.backBtn {
-  margin-bottom: 10px;
-  padding: 5px 15px;
+
+.btn {
   cursor: pointer;
+  border: none;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: snow;
+  background-color: rgba(97, 28, 209, 0.6);
+  border-radius: 4px;
+}
+.btn:hover,
+.btn:focus {
+  background-color: royalblue;
 }

@@ -1,15 +1,8 @@
 import { Route } from "react-router-dom";
 import { useParams, NavLink, useHistory } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
-import { fetchFilmById, fetchFilms } from "../../source/api";
 import s from "./MovieDetailsPage.module.css";
 import { useRouteMatch } from "react-router-dom";
-import {
-  useFetchMoviesQuery,
-  useDeleteMoviesMutation,
-  useAddMoviesMutation,
-  useGetMoviesQuery,
-} from "../../redux/movies/moviesSlice";
 
 const MovieDetailsPage = () => {
   const { moviesId } = useParams();

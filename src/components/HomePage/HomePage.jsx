@@ -1,33 +1,24 @@
-import { Link } from "react-router-dom";
 import s from "../../styles/MoviesList.module.css";
-import { useState } from "react";
-import { useFetchMoviesQuery } from "../../redux/api/api";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "../../redux/movies/moviesOperations";
+import { Link } from "react-router-dom";
 
-const HomePage = ({ films }) => {
+const HomePage = () => {
   const [q, setQ] = useState("");
-  // const [movies, setMovies] = useState({});
-  // const [query, setQuery] = useState("");
-  // const { url } = useRouteMatch();
-  const fetchMovie = useFetchMoviesQuery();
-  // const [addMovie] = useAddMoviesMutation();
+  const movies = useSelector((state) => state.movies.items.data);
+  const dispatch = useDispatch();
 
-  // console.log(`fetchMovie`, fetchMovie);
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
+
   const handleSubmitInput = (e) => {
     e.preventDefault();
   };
 
   const handleChange = (e) => {
     setQ(e.target.value.toLowerCase());
-  };
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    const movieId = e.target.parentNode.id;
-    // getMovie(movieId);
-    console.log(
-      `getMovie`,
-      fetchMovie.data.find((item) => item.id === movieId)
-    );
   };
 
   return (
@@ -43,22 +34,20 @@ const HomePage = ({ films }) => {
         <button type="submit">Search</button>
       </form>
       <ul className={s.MoviesList}>
-        {/* {fetchMovie.data &&
-          fetchMovie.data.map(({ title, id }) => (
+        {movies &&
+          movies.map(({ title, id }) => (
             <li key={id} id={id} className={s.MoviesListItem}>
               <p>
-                <Link to={`movies/${id}`} className={s.MoviesListLink}>
+                <Link to={`${id}`} className={s.MoviesListLink}>
                   <span className={s.MovieId}>ID: {id}</span>
                   <br />
                   <span>{title}</span>
                 </Link>
               </p>
 
-              <button type="button" onClick={handleClick}>
-                Add
-              </button>
+              <button type="button">Add</button>
             </li>
-          ))} */}
+          ))}
       </ul>
     </div>
   );

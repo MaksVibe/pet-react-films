@@ -1,0 +1,68 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchMovies, addMovie, deleteMovie } from "./moviesOperations";
+
+const initialState = {
+  data: {
+    items: [],
+    loading: false,
+    error: null,
+    token: null,
+  },
+  filter: "",
+};
+
+const moviesSlice = createSlice({
+  name: "contacts",
+  initialState,
+  reducers: {
+    changeFilter: (state, { payload }) => {
+      state.filter = payload;
+    },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchMovies.pending, state => {
+        state.data.loading = true;
+        state.data.error = null;
+      })
+      .addCase(fetchMovies.fulfilled, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.items = payload;
+      })
+      .addCase(fetchMovies.rejected, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.error = payload;
+      })
+
+      .addCase(addMovie.pending, state => {
+        state.data.loading = true;
+        state.data.error = null;
+      })
+      .addCase(addMovie.fulfilled, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.items.push(payload);
+      })
+      .addCase(addMovie.rejected, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.error = payload;
+      })
+
+      .addCase(deleteMovie.pending, state => {
+        state.data.loading = true;
+        state.data.error = null;
+      })
+      .addCase(deleteMovie.fulfilled, (state, { payload }) => {
+        state.data.loading = false;
+        const indx = state.data.items.findIndex(item => item.id === payload);
+        state.data.items.splice(indx, 1);
+      })
+      .addCase(deleteMovie.rejected, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.error = payload;
+      });
+  },
+});
+
+export const { changeFilter } = moviesSlice.actions;
+
+export default moviesSlice.reducer;
