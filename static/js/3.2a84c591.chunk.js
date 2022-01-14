@@ -1,0 +1,2 @@
+(this["webpackJsonppet-react-films"]=this["webpackJsonppet-react-films"]||[]).push([[3],{73:function(e,t,s){e.exports={AuthNav:"AuthNav_AuthNav__gnT01"}},78:function(e,t,s){"use strict";s.r(t);var a=s(24),c=s(73),n=s.n(c),i=s(10);t.default=function(){return Object(i.jsx)("header",{className:"App-header",children:Object(i.jsxs)("nav",{className:n.a.AuthNav,children:[Object(i.jsx)(a.c,{to:"login",className:"btn",children:"Sing in"}),Object(i.jsx)(a.c,{to:"register",className:"btn",children:"Sign up"})]})})}}}]);
+//# sourceMappingURL=3.2a84c591.chunk.js.map

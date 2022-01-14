@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/AuthNav/AuthNav.module.css"],"names":[],"mappings":"AAAA,wBACE,YAAa,CACb,aAAS,CAAT,QACF","file":"3.ee3ac9ca.chunk.css","sourcesContent":[".AuthNav {\n  display: flex;\n  gap: 20px;\n}\n"]}

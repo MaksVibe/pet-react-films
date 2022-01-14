@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/common/404NotFound.jsx"],"names":["NotFound"],"mappings":"6IAQeA,UARE,WACf,OACE,qCACE,+DACA","file":"static/js/10.c7c993a0.chunk.js","sourcesContent":["const NotFound = () => {\n  return (\n    <>\n      <h1>💩 404 💩</h1>\n      <p>Looks like this page doesn't exist.</p>\n    </>\n  );\n};\nexport default NotFound;\n"],"sourceRoot":""}
