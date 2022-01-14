@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMovies, addMovie, deleteMovie } from "./moviesOperations";
+import {
+  fetchMovies,
+  addMovie,
+  deleteMovie,
+  getMovie,
+  getCurrentMovie,
+} from "./moviesOperations";
 
 const initialState = {
   data: {
     items: [],
+    libraryItems: [],
     loading: false,
     error: null,
     token: null,
@@ -21,6 +28,7 @@ const moviesSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      // FETCH MOVIES
       .addCase(fetchMovies.pending, state => {
         state.data.loading = true;
         state.data.error = null;
@@ -34,19 +42,37 @@ const moviesSlice = createSlice({
         state.data.error = payload;
       })
 
+      // GET MOVIE INFO
+      .addCase(getMovie.pending, state => {
+        state.data.loading = true;
+        state.data.error = null;
+      })
+      .addCase(getMovie.fulfilled, (state, { payload }) => {
+        state.data.loading = false;
+      })
+      .addCase(getMovie.rejected, (state, { payload }) => {
+        state.data.loading = false;
+        state.data.error = payload;
+      })
+      .addCase(getCurrentMovie.fulfilled, (state, { payload }) => {
+        state.data.loading = false;
+      })
+
+      // ADD MOVIE TO LIB
       .addCase(addMovie.pending, state => {
         state.data.loading = true;
         state.data.error = null;
       })
       .addCase(addMovie.fulfilled, (state, { payload }) => {
         state.data.loading = false;
-        state.data.items.push(payload);
+        state.data.libraryItems.push(payload);
       })
       .addCase(addMovie.rejected, (state, { payload }) => {
         state.data.loading = false;
         state.data.error = payload;
       })
 
+      // DELETE MOVIE FROM LIB
       .addCase(deleteMovie.pending, state => {
         state.data.loading = true;
         state.data.error = null;

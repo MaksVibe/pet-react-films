@@ -1,40 +1,28 @@
 import { Route } from "react-router-dom";
-import { useParams, NavLink, useHistory } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect, lazy } from "react";
 import s from "./MovieDetailsPage.module.css";
-import { useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MovieDetailsPage = () => {
-  const { moviesId } = useParams();
-  const [movie, setMovie] = useState(null);
+  const movie = useSelector((state) => state.movies.items);
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   return (
     <div className="container">
-      <button
-        type="button"
-        className="backBtn"
-        onClick={() => history.goBack()}
-      >
+      <button type="button" className="btn" onClick={() => navigate(-1)}>
         Go back
       </button>
       {movie && (
         <div className={s.MovieCard}>
-          <img
-            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            alt=""
-            className={s.MoviePoster}
-            width="200"
-          />
-          <div className={s.MovieDescription}>
-            <h1>{movie.original_title}</h1>
-            <p>User Score: {movie.vote_average * 10}%</p>
-            <h2>Overview</h2>
-            <p>{movie.overview}</p>
-            <h3>Genres</h3>
-            <p>{movie.genres.map((genre) => genre.name).join(", ")}</p>
-          </div>
+          <p>ID: {movie.id}</p>
+          <h1>{movie.title}</h1>
+          <p>Year of issue: {movie.year}</p>
+          <p>Format: {movie.format}</p>
+          {movie.actors && (
+            <p>Cast: {movie.actors.map((actor) => actor.name).join(", ")}</p>
+          )}
         </div>
       )}
     </div>
