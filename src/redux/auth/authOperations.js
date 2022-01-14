@@ -53,7 +53,7 @@ const fetchCurrentUser = createAsyncThunk(
     }
     token.set(persistedToken);
     try {
-      const { data } = await axios.post("/sessions", credentials);
+      const { data } = await axios.post("/sessions");
       return data;
     } catch (error) {
       token.unset();

@@ -22,6 +22,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email.length || !password.length) return false;
     dispatch(login({ email, password }));
     reset();
   };
