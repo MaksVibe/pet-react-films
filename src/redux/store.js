@@ -22,7 +22,7 @@ const logger = createLogger({
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["token"],
+  whitelist: ["token", "user"],
 };
 
 const moviesPersistConfig = {

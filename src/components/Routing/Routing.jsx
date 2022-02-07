@@ -19,11 +19,15 @@ const RoutesNav = () => {
       {isLogedIn ? <Navigation /> : <AuthNav />}
       <Routes>
         <Route
-          path="login"
+          path="/pet-react-films"
+          element={<Navigate replace to="/login" />}
+        />
+        <Route
+          path="/login"
           element={isLogedIn ? <Navigate to="/movies" /> : <Login />}
         />
         <Route
-          path="register"
+          path="/register"
           element={isLogedIn ? <Navigate to="/movies" /> : <Register />}
         />
         <Route

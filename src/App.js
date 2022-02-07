@@ -7,9 +7,9 @@ const Routing = lazy(() => import("./components/Routing/Routing"));
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchCurrentUser());
+  // }, [dispatch]);
 
   return (
     <div className="App">
