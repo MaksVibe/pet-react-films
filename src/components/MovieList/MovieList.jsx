@@ -10,10 +10,20 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const settings = {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+};
+
 const MovieList = () => {
   const [movieQ, setMovieQ] = useState("");
   const [actorQ, setActorQ] = useState("");
-  const movies = useSelector((state) => state.movies.items.data);
+  const movies = useSelector((state) => state.movies.data.items);
   const dispatch = useDispatch();
   const currentMovie = useSelector((state) => state.movies.currentItem);
 
@@ -21,25 +31,17 @@ const MovieList = () => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (currentMovie.length > 0) {
-      const movie = currentMovie.data;
-      dispatch(addMovie(movie));
-    }
-  }, [currentMovie, dispatch]);
+  // useEffect(() => {
+  //   if (currentMovie.length > 0) {
+  //     const movie = currentMovie.data;
+  //     dispatch(addMovie(movie));
+  //   }
+  // }, [currentMovie, dispatch]);
 
   const handleClick = (e) => {
     if (e.target.textContent === "Add" && e.target.type === "button") {
       dispatch(addMovie(e.currentTarget.id));
-      toast.success("🦄 Movie added!", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.success("🦄 Movie added!", settings);
       return;
     }
     dispatch(getMovie(e.currentTarget.id));

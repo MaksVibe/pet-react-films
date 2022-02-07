@@ -13,13 +13,12 @@ const initialState = {
     libraryItems: [],
     loading: false,
     error: null,
-    token: null,
   },
   filter: "",
 };
 
 const moviesSlice = createSlice({
-  name: "contacts",
+  name: "movies",
   initialState,
   reducers: {
     changeFilter: (state, { payload }) => {
@@ -30,7 +29,6 @@ const moviesSlice = createSlice({
       state.data.libraryItems = [];
       state.data.loading = false;
       state.data.error = null;
-      state.data.token = null;
       state.filter = "";
     },
   },
@@ -43,7 +41,7 @@ const moviesSlice = createSlice({
       })
       .addCase(fetchMovies.fulfilled, (state, { payload }) => {
         state.data.loading = false;
-        state.data.items = payload;
+        state.data.items = payload.data;
       })
       .addCase(fetchMovies.rejected, (state, { payload }) => {
         state.data.loading = false;
@@ -56,7 +54,6 @@ const moviesSlice = createSlice({
         state.data.error = null;
       })
       .addCase(getMovie.fulfilled, (state, { payload }) => {
-        console.log("payload", payload);
         state.data.loading = false;
       })
       .addCase(getMovie.rejected, (state, { payload }) => {
@@ -74,25 +71,25 @@ const moviesSlice = createSlice({
         state.data.error = null;
       })
       .addCase(addMovie.fulfilled, (state, { payload }) => {
-        console.log("payload", payload); // Не отстреливает
+        console.log("data", payload);
         state.data.loading = false;
-        // state.data.libraryItems.push(payload);
-      })
-
-      // DELETE MOVIE FROM LIB
-      .addCase(deleteMovie.pending, (state) => {
-        state.data.loading = true;
-        state.data.error = null;
-      })
-      .addCase(deleteMovie.fulfilled, (state, { payload }) => {
-        state.data.loading = false;
-        const indx = state.data.items.findIndex((item) => item.id === payload);
-        state.data.items.splice(indx, 1);
-      })
-      .addCase(deleteMovie.rejected, (state, { payload }) => {
-        state.data.loading = false;
-        state.data.error = payload;
+        state.data.libraryItems.push(payload);
       });
+
+    // DELETE MOVIE FROM LIB
+    // .addCase(deleteMovie.pending, state => {
+    //   state.data.loading = true;
+    //   state.data.error = null;
+    // })
+    // .addCase(deleteMovie.fulfilled, (state, { payload }) => {
+    //   state.data.loading = false;
+    //   const indx = state.data.items.findIndex(item => item.id === payload);
+    //   state.data.items.splice(indx, 1);
+    // })
+    // .addCase(deleteMovie.rejected, (state, { payload }) => {
+    //   state.data.loading = false;
+    //   state.data.error = payload;
+    // });
   },
 });
 

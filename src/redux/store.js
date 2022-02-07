@@ -12,7 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import moviesReducer from "./movies/moviesReducer";
+import moviesSlicer from "./movies/moviesSlicer";
 
 const logger = createLogger({
   collapsed: (getState, action, logEntry) => !logEntry.error,
@@ -26,7 +26,7 @@ const authPersistConfig = {
 };
 
 const moviesPersistConfig = {
-  key: "items",
+  key: "movies",
   storage,
   whitelist: ["items", "libraryItems"],
   blacklist: ["filter"],
@@ -35,7 +35,7 @@ const moviesPersistConfig = {
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authSliceReducer),
-    movies: persistReducer(moviesPersistConfig, moviesReducer),
+    movies: persistReducer(moviesPersistConfig, moviesSlicer),
     // [filterSlice.name]: filterSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

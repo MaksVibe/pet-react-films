@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 import * as api from "../api/api";
-import { token } from "../auth/authOperations";
 const API_ENDPOINT = "/movies";
 
 const fetchMovies = createAsyncThunk(
@@ -43,19 +43,15 @@ const getCurrentMovie = createAsyncThunk(
 
 const addMovie = createAsyncThunk("movies/addMovie", async (id, thunkAPI) => {
   try {
-    const { data } = await api.getMovie(`${API_ENDPOINT}/${id}`);
-    token.set(thunkAPI.getState().auth.token);
-    const add = await api.saveItem(API_ENDPOINT, data.data);
-    console.log("add", add);
-
-    return data;
+    const { data } = await axios.get(`${API_ENDPOINT}/${id}`);
+    return data.data;
   } catch (error) {
     return thunkAPI.rejectWithValue("Something went wrong...");
   }
 });
 
 const deleteMovie = createAsyncThunk(
-  "movies/deleteMovies",
+  "movies/deleteMovie",
   async (deleteId, thunkAPI) => {
     try {
       await api.deleteItem(API_ENDPOINT, deleteId);
