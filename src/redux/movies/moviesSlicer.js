@@ -25,11 +25,19 @@ const moviesSlice = createSlice({
     changeFilter: (state, { payload }) => {
       state.filter = payload;
     },
+    resetUserInfo: (state, _) => {
+      state.data.items = [];
+      state.data.libraryItems = [];
+      state.data.loading = false;
+      state.data.error = null;
+      state.data.token = null;
+      state.filter = "";
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       // FETCH MOVIES
-      .addCase(fetchMovies.pending, state => {
+      .addCase(fetchMovies.pending, (state) => {
         state.data.loading = true;
         state.data.error = null;
       })
@@ -43,11 +51,12 @@ const moviesSlice = createSlice({
       })
 
       // GET MOVIE INFO
-      .addCase(getMovie.pending, state => {
+      .addCase(getMovie.pending, (state) => {
         state.data.loading = true;
         state.data.error = null;
       })
       .addCase(getMovie.fulfilled, (state, { payload }) => {
+        console.log("payload", payload);
         state.data.loading = false;
       })
       .addCase(getMovie.rejected, (state, { payload }) => {
@@ -55,31 +64,29 @@ const moviesSlice = createSlice({
         state.data.error = payload;
       })
       .addCase(getCurrentMovie.fulfilled, (state, { payload }) => {
+        console.log("payload", payload);
         state.data.loading = false;
       })
 
       // ADD MOVIE TO LIB
-      .addCase(addMovie.pending, state => {
+      .addCase(addMovie.pending, (state) => {
         state.data.loading = true;
         state.data.error = null;
       })
       .addCase(addMovie.fulfilled, (state, { payload }) => {
+        console.log("payload", payload); // Не отстреливает
         state.data.loading = false;
-        state.data.libraryItems.push(payload);
-      })
-      .addCase(addMovie.rejected, (state, { payload }) => {
-        state.data.loading = false;
-        state.data.error = payload;
+        // state.data.libraryItems.push(payload);
       })
 
       // DELETE MOVIE FROM LIB
-      .addCase(deleteMovie.pending, state => {
+      .addCase(deleteMovie.pending, (state) => {
         state.data.loading = true;
         state.data.error = null;
       })
       .addCase(deleteMovie.fulfilled, (state, { payload }) => {
         state.data.loading = false;
-        const indx = state.data.items.findIndex(item => item.id === payload);
+        const indx = state.data.items.findIndex((item) => item.id === payload);
         state.data.items.splice(indx, 1);
       })
       .addCase(deleteMovie.rejected, (state, { payload }) => {
@@ -89,6 +96,6 @@ const moviesSlice = createSlice({
   },
 });
 
-export const { changeFilter } = moviesSlice.actions;
+export const { changeFilter, resetUserInfo } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

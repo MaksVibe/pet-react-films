@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, register, logout, fetchCurrentUser } from "./authOperations";
+import { login, register, logout, refresh } from "./authOperations";
 
 const initialState = {
   user: null,
@@ -17,13 +17,10 @@ const authSlice = createSlice({
       state.error = null;
     },
     [register.fulfilled](state, { meta, payload }) {
+      if (payload.error) return (state.error = payload.error);
       state.user = meta.arg.email;
       state.token = payload.token;
       state.isLoggedIn = true;
-    },
-    [register.rejected](state, { payload }) {
-      state.error = payload;
-      state.isLoggedIn = false;
     },
 
     // SIGN IN
@@ -31,13 +28,10 @@ const authSlice = createSlice({
       state.error = null;
     },
     [login.fulfilled](state, { meta, payload }) {
+      if (payload.error) return (state.error = payload.error);
       state.user = meta.arg.email;
       state.token = payload.token;
       state.isLoggedIn = true;
-    },
-    [login.rejected](state, { payload }) {
-      state.error = payload;
-      state.isLoggedIn = false;
     },
 
     // LOGOUT
@@ -49,14 +43,13 @@ const authSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
     },
-    [login.rejected](state, { payload }) {
-      state.error = payload;
+
+    [refresh.pending](state, action) {
+      state.error = null;
+    },
+    [refresh.fulfilled](state, { payload }) {
       state.isLoggedIn = true;
     },
-
-    // [fetchCurrentUser.fulfilled](state, action) {
-    //   state.isLoggedIn = true;
-    // },
   },
 });
 

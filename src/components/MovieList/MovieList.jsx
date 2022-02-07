@@ -5,12 +5,14 @@ import {
   fetchMovies,
   getMovie,
   addMovie,
-  getCurrentMovie,
 } from "../../redux/movies/moviesOperations";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MovieList = () => {
-  const [q, setQ] = useState("");
+  const [movieQ, setMovieQ] = useState("");
+  const [actorQ, setActorQ] = useState("");
   const movies = useSelector((state) => state.movies.items.data);
   const dispatch = useDispatch();
   const currentMovie = useSelector((state) => state.movies.currentItem);
@@ -21,27 +23,39 @@ const MovieList = () => {
 
   useEffect(() => {
     if (currentMovie.length > 0) {
-      const { title, year, format, actors } = currentMovie.data;
-      dispatch(addMovie({ title, year, format, actors }));
+      const movie = currentMovie.data;
+      dispatch(addMovie(movie));
     }
   }, [currentMovie, dispatch]);
 
   const handleClick = (e) => {
-    if (e.target.textContent === "Add" || e.target.type === "button") {
-      dispatch(getCurrentMovie(e.currentTarget.id));
+    if (e.target.textContent === "Add" && e.target.type === "button") {
+      dispatch(addMovie(e.currentTarget.id));
+      toast.success("🦄 Movie added!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
     }
-
-    if (
-      e.target === e.currentTarget ||
-      e.target.textContent === "Add" ||
-      e.target.type === "button"
-    )
-      return false;
     dispatch(getMovie(e.currentTarget.id));
   };
 
   const handleChange = (e) => {
-    setQ(e.target.value.toLowerCase());
+    switch (e.target.id) {
+      case "movieQ":
+        setMovieQ(e.target.value.toLowerCase());
+        break;
+      case "actorQ":
+        setActorQ(e.target.value.toLowerCase());
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -53,7 +67,8 @@ const MovieList = () => {
           <input
             className="MoviesInput"
             type="text"
-            value={q}
+            value={movieQ}
+            id="movieQ"
             onChange={handleChange}
           />
         </label>
@@ -64,7 +79,8 @@ const MovieList = () => {
           <input
             className="MoviesInput"
             type="text"
-            value={q}
+            value={actorQ}
+            id="actorQ"
             onChange={handleChange}
           />
         </label>

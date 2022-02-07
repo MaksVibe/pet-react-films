@@ -28,7 +28,7 @@ const authPersistConfig = {
 const moviesPersistConfig = {
   key: "items",
   storage,
-  whitelist: ["items"],
+  whitelist: ["items", "libraryItems"],
   blacklist: ["filter"],
 };
 
