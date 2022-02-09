@@ -10,6 +10,20 @@ const fetchMovies = createAsyncThunk(
       const { data } = await api.getData(
         `${API_ENDPOINT}?sort=title&order=ASC&limit=10&offset=0`
       );
+      return data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong...");
+    }
+  }
+);
+
+const importMovies = createAsyncThunk(
+  "movies/importMovies",
+  async (movies, thunkAPI) => {
+    try {
+      console.log("movies", movies);
+      const { data } = await api.importData(`${API_ENDPOINT}/import`, movies);
+      console.log("data", data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong...");
@@ -22,19 +36,7 @@ const getMovie = createAsyncThunk(
   async (movieId, thunkAPI) => {
     try {
       const { data } = await api.getData(`${API_ENDPOINT}/${movieId}`);
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Something went wrong...");
-    }
-  }
-);
-
-const getCurrentMovie = createAsyncThunk(
-  "movies/getCurrentMovie",
-  async (movieId, thunkAPI) => {
-    try {
-      const { data } = await api.getData(`${API_ENDPOINT}/${movieId}`);
-      return data;
+      return data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong...");
     }
@@ -62,4 +64,4 @@ const deleteMovie = createAsyncThunk(
   }
 );
 
-export { fetchMovies, addMovie, deleteMovie, getMovie, getCurrentMovie };
+export { fetchMovies, addMovie, deleteMovie, getMovie, importMovies };

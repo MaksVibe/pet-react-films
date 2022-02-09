@@ -36,7 +36,13 @@ const RoutesNav = () => {
         />
         <Route
           path="/library"
-          element={isLogedIn ? <Library /> : <Navigate to="/login" />}
+          element={
+            isLogedIn ? (
+              <MovieList isLibrary={true} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/movies/:moviesId"

@@ -1,11 +1,9 @@
-import { Route } from "react-router-dom";
-import { useParams, NavLink, useNavigate } from "react-router-dom";
-import { useState, useEffect, lazy } from "react";
+import { useNavigate } from "react-router-dom";
 import s from "./MovieDetailsPage.module.css";
 import { useSelector } from "react-redux";
 
 const MovieDetailsPage = () => {
-  const movie = useSelector((state) => state.movies.items);
+  const movie = useSelector((state) => state.movies.data.currentMovie);
 
   let navigate = useNavigate();
 

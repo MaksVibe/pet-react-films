@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchMovies } from "../movies/moviesOperations";
 import { resetUserInfo } from "../movies/moviesSlicer";
-
+import { films } from "../api/sample_movies";
 axios.defaults.baseURL = "http://localhost:8000/api/v1";
 
 export const token = {
@@ -56,4 +56,17 @@ const refresh = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   return persistedToken;
 });
 
-export { register, logout, login, refresh };
+const importMovies = createAsyncThunk(
+  "movies/importMovies",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await axios.post("movies/import", films);
+      console.log("data", data);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong...");
+    }
+  }
+);
+
+export { register, logout, login, refresh, importMovies };
