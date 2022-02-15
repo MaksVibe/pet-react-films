@@ -10,7 +10,6 @@ const Register = lazy(() => import("../Register/Register"));
 const NotFound = lazy(() => import("../common/404NotFound"));
 const MovieList = lazy(() => import("../MovieList/MovieList"));
 const Navigation = lazy(() => import("../Navigation/Navigation"));
-const Library = lazy(() => import("../Library/Library"));
 
 const RoutesNav = () => {
   const isLogedIn = useSelector(authSelectors.getIsLoggedIn);

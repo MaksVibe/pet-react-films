@@ -11,7 +11,6 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import films from "../../redux/api/sample_movies.txt";
 
 const settings = {
   position: "top-center",
@@ -26,13 +25,17 @@ const settings = {
 const MovieList = ({ isLibrary }) => {
   const [movieQ, setMovieQ] = useState("");
   const [actorQ, setActorQ] = useState("");
+
   let movies = useSelector((state) => state.movies.data.items);
   let libMovies = useSelector((state) => state.movies.data.libraryItems);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchMovies());
-    dispatch(importMovies(films));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(importMovies());
   }, [dispatch]);
 
   const handleClick = (e) => {
@@ -44,8 +47,8 @@ const MovieList = ({ isLibrary }) => {
       return;
     }
     if (e.target.textContent === "Delete" && e.target.type === "button") {
-      dispatch(deleteMovie(e.currentTarget.id));
-      toast.success("🦄 Movie added!", settings);
+      // dispatch(deleteMovie(e.currentTarget.id));
+      // toast.success("🦄 Movie added!", settings);
       return;
     }
     dispatch(getMovie(e.currentTarget.id));
@@ -92,7 +95,7 @@ const MovieList = ({ isLibrary }) => {
         </label>
       </form>
       <ul className={s.MoviesList}>
-        {isLibrary
+        {!isLibrary
           ? libMovies &&
             libMovies.map(({ title, id }) => (
               <li

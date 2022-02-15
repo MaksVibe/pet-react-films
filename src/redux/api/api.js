@@ -4,7 +4,7 @@ axios.defaults.baseURL = "http://localhost:8000/api/v1";
 
 const getData = (endpoint) => axios.get(endpoint);
 
-const importData = (endpoint, movies) => axios.post(endpoint, movies);
+const importData = (endpoint, file) => axios.post(endpoint, file);
 
 const getMovie = (endpoint) => axios.get(endpoint);
 

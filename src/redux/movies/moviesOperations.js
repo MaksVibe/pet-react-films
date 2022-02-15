@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import * as api from "../api/api";
+import { token } from "../auth/authOperations";
+import movies from "./movies.txt";
 const API_ENDPOINT = "/movies";
 
 const fetchMovies = createAsyncThunk(
@@ -19,13 +21,33 @@ const fetchMovies = createAsyncThunk(
 
 const importMovies = createAsyncThunk(
   "movies/importMovies",
-  async (movies, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      console.log("movies", movies);
-      const { data } = await api.importData(`${API_ENDPOINT}/import`, movies);
-      console.log("data", data);
-      return data;
+      const persistedToken = thunkAPI.getState().auth.token;
+      token.set(persistedToken);
+
+      const formattedMovies = await fetch(movies).then((res) => res.blob());
+      const formData = new FormData();
+      formData.append("movies", formattedMovies);
+
+      const res = axios
+        .post("http://localhost:8000/api/v1/movies/import", formData, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(`Success` + res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // const res = await api.importData(`${API_ENDPOINT}/import`, formData);
+      console.log("res", res);
+      return res;
     } catch (error) {
+      console.log("error", error);
       return thunkAPI.rejectWithValue("Something went wrong...");
     }
   }

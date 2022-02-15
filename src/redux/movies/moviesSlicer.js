@@ -50,11 +50,13 @@ const moviesSlice = createSlice({
         state.data.error = payload;
       })
 
+      // IMPORT
       .addCase(importMovies.fulfilled, (state, { payload }) => {
-        console.log("payload", payload);
+        // console.log("payload", payload);
         state.data.loading = false;
         // state.data.items = payload;
       })
+
       // GET MOVIE INFO
       .addCase(getMovie.pending, (state) => {
         state.data.loading = true;
